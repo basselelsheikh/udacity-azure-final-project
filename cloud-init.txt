@@ -1,0 +1,29 @@
+#cloud-config
+package_upgrade: true
+packages:
+  - nginx
+  - python3.12
+  - python3.12-venv
+  - python3-pip
+  - unzip
+  - redis-server
+write_files:
+  - owner: www-data:www-data
+    path: /etc/nginx/sites-available/reverse-proxy.conf
+    content: |
+      server {
+        listen 80;
+        location / {
+          proxy_pass http://localhost:5000;
+          proxy_http_version 1.1;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection keep-alive;
+          proxy_set_header Host $host;
+          proxy_cache_bypass $http_upgrade;
+        }
+      }
+runcmd:
+  - sudo unlink /etc/nginx/sites-enabled/default
+  - sudo ln -s /etc/nginx/sites-available/reverse-proxy.conf /etc/nginx/sites-enabled/reverse-proxy.conf
+  - python3.12 -m pip install --upgrade pip
+  - sudo service nginx restart
