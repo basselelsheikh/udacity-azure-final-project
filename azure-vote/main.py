@@ -36,7 +36,20 @@ title = os.environ.get('TITLE', app.config['TITLE'])
 if app.config.get('SHOWHOST', 'false') == "true":
     title = socket.gethostname()
 
-r = redis.Redis()
+# r = redis.Redis()
+redis_server = os.environ['REDIS']
+
+try:
+   if "REDIS_PWD" in os.environ:
+      r = redis.StrictRedis(host=redis_server,
+                        port=6379,
+                        password=os.environ['REDIS_PWD'])
+   else:
+      r = redis.Redis(redis_server)
+   r.ping()
+except redis.ConnectionError:
+   exit('Failed to connect to Redis, terminating.')
+   
 if not r.get(button1): r.set(button1, 0)
 if not r.get(button2): r.set(button2, 0)
 
