@@ -5,4 +5,4 @@ redis==5.0.1
 opencensus==0.11.4
 opencensus-ext-logging==0.1.1
 Werkzeug==2.3.7
-opencensus-ext-requests==0.8.1
+opencensus-ext-requests==0.8.0
