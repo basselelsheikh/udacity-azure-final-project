@@ -11,7 +11,7 @@ from opencensus.ext.flask.flask_middleware import FlaskMiddleware
 from opencensus.trace.samplers import ProbabilitySampler
 from opencensus.trace.tracer import Tracer
 
-APP_INSIGHTS_KEY = "c949c2c4-6566-4517-999d-5043c81d94ed"
+APP_INSIGHTS_KEY = "86dff2e7-9c85-4a73-acbc-e35a19065cee"
 
 app = Flask(__name__)
 app.config.from_pyfile('config_file.cfg')
